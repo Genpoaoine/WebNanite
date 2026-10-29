@@ -105,6 +105,26 @@ function setStatus(text: string, kind: 'ok' | 'warn' | 'error'): void {
   statusEl.dataset['kind'] = kind;
 }
 
+/** 启动失败只弹一次窗，避免后续异步失败重复打扰。 */
+let fatalAlertShown = false;
+
+/**
+ * 环境不支持 WebGPU 这类致命错误：除 HUD 里写明原因外，再弹一个系统弹窗。
+ * 旧手机 / 移动端面板往往被收起或看不全，弹窗能保证「为什么是黑屏」被看到。
+ * 部分 WebView 禁用了 alert，失败时静默忽略，HUD 与 console 里仍有完整信息。
+ */
+function showFatalAlert(message: string): void {
+  if (fatalAlertShown) {
+    return;
+  }
+  fatalAlertShown = true;
+  try {
+    window.alert(message);
+  } catch (error) {
+    console.error('[webnanite] alert 不可用', error);
+  }
+}
+
 function syncCanvasSize(): boolean {
   const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
   const width = Math.max(1, Math.floor(canvas.clientWidth * dpr));
@@ -327,6 +347,7 @@ async function main(): Promise<void> {
 main().catch((error: unknown) => {
   if (error instanceof WebGpuUnavailableError) {
     setStatus(`${t.webgpuUnavailable}${error.message}`, 'error');
+    showFatalAlert(t.webgpuAlert(error.message));
     console.error(error);
     return;
   }

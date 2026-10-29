@@ -59,6 +59,10 @@ export interface UiStrings {
   webgpuMissing: string;
   adapterMissing: string;
   contextMissing: string;
+  /** requestDevice() 被拒（旧驱动或不支持的特性组合）。 */
+  deviceRequestFailed: (detail: string) => string;
+  /** 启动失败时的 alert 弹窗正文（具体原因 + 兼容性提示）。 */
+  webgpuAlert: (reason: string) => string;
   /** WGSL 编译失败（shader.ts 抛出）。 */
   wgslCompileFailed: (count: number, label: string) => string;
 }
@@ -112,6 +116,12 @@ const ZH: UiStrings = {
   adapterMissing:
     'requestAdapter() 返回 null：显卡驱动或浏览器没有提供 WebGPU 适配器，可先访问 chrome://gpu 查看 WebGPU 状态。',
   contextMissing: 'canvas.getContext("webgpu") 返回 null：无法创建 WebGPU 画布上下文。',
+  deviceRequestFailed: (detail) => `requestDevice() 失败：${detail}`,
+  webgpuAlert: (reason) =>
+    'WebGPU 不可用 · 无法启动 WebNanite\n\n' +
+    `${reason}\n\n` +
+    '本演示需要 WebGPU：请使用最新版 Chrome / Edge（113+）、Android Chrome（121+）或 Safari（26+），' +
+    '并确认页面是通过 https 或 http://localhost 打开的。',
   wgslCompileFailed: (count, label) => `WGSL 编译失败（${count} 个错误），详见控制台：${label}`,
 };
 
@@ -167,6 +177,12 @@ const EN: UiStrings = {
     'requestAdapter() returned null: the driver or browser provides no WebGPU adapter. ' +
     'Check chrome://gpu for the WebGPU status.',
   contextMissing: 'canvas.getContext("webgpu") returned null: could not create a WebGPU canvas context.',
+  deviceRequestFailed: (detail) => `requestDevice() failed: ${detail}`,
+  webgpuAlert: (reason) =>
+    'WebGPU is not available — WebNanite cannot start\n\n' +
+    `${reason}\n\n` +
+    'This demo requires WebGPU: use a recent Chrome / Edge (113+), Android Chrome (121+), or Safari (26+), ' +
+    'and make sure the page is served over https or http://localhost.',
   wgslCompileFailed: (count, label) =>
     `WGSL compilation failed (${count} error${count === 1 ? '' : 's'}), see the console: ${label}`,
 };

@@ -41,11 +41,19 @@ export async function initWebGpu(
     throw new WebGpuUnavailableError(t.adapterMissing);
   }
 
-  const device = await adapter.requestDevice({
-    label: 'webnanite-device',
-    // 有就启用：vsync 锁帧时用 GPU 时间戳仍能量化真实渲染成本
-    requiredFeatures: adapter.features.has('timestamp-query') ? ['timestamp-query'] : [],
-  });
+  let device: GPUDevice;
+  try {
+    device = await adapter.requestDevice({
+      label: 'webnanite-device',
+      // 有就启用：vsync 锁帧时用 GPU 时间戳仍能量化真实渲染成本
+      requiredFeatures: adapter.features.has('timestamp-query') ? ['timestamp-query'] : [],
+    });
+  } catch (error) {
+    // 旧驱动 / 不受支持的特性组合会在这里被拒：同样按「环境不可用」上报，前端统一提示
+    throw new WebGpuUnavailableError(
+      t.deviceRequestFailed(error instanceof Error ? error.message : String(error)),
+    );
+  }
   const context = canvas.getContext('webgpu');
   if (!context) {
     throw new WebGpuUnavailableError(t.contextMissing);
