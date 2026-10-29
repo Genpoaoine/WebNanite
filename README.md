@@ -1,5 +1,7 @@
 # WebNanite
 
+**English** | [简体中文](README.zh-CN.md)
+
 **A GPU-driven, Nanite-style renderer for a Mandelbulb fractal — built with WebGPU.**
 
 The model (≈639k triangles at LOD0, split into 2,744 clusters across 4 LOD levels) is meshed in a Web Worker and rendered by compute-driven cluster culling — frustum + HZB occlusion + screen-space LOD — with a **single `drawIndexedIndirect`** call.
@@ -112,12 +114,4 @@ The Mandelbulb kernel is the GLSL snippet that started this project, ported to W
 
 ## License
 
-No license has been chosen yet. All rights reserved by the author.
-
----
-
-## 中文简介
-
-WebGPU 版的 Nanite 风格概念演示：把 Mandelbulb 隐式曲面在 Web Worker 里网格化成 4 级 LOD（LOD0 约 63.9 万面、2744 个簇），再用 Compute Shader 做逐簇视锥剔除、HZB 遮挡剔除与屏幕空间 LOD 选择，最终用**一次 `drawIndexedIndirect`** 画完整个模型。HUD 实时显示 FPS、提交面数、可见簇、LOD 分布与 GPU 时间，并提供「暴力全开」对照模式。
-
-在线体验：<https://genpoaoine.github.io/WebNanite/>
+[MIT](LICENSE) © 2026 Genpoaoine
