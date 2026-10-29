@@ -1,0 +1,24 @@
+{
+  "name": "webnanite",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "WebGPU 单体 Mandelbulb 分形 + Nanite 风格 Cluster LOD 概念演示（当前仅环境脚手架）",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "gl-matrix": "^3.4.4"
+  },
+  "devDependencies": {
+    "@webgpu/types": "^0.1.74",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.5"
+  }
+}

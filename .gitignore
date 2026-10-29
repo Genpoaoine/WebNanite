@@ -1,0 +1,23 @@
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# 日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+vite-dev*.log
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# 个人备份 / 参考素材（不进仓库）
+Backup/
+/image.png
