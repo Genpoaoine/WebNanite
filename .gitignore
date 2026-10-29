@@ -21,3 +21,6 @@ Thumbs.db
 # 个人备份 / 参考素材（不进仓库）
 Backup/
 /image.png
+
+# 内部开发笔记（旧版 README、部署记录、原始需求存档）
+Description.md
